@@ -1,0 +1,17 @@
+.canvas {
+  width: 95%;
+  height: 95%;
+  padding: 20px;
+}
+
+.settings__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: white;
+}
