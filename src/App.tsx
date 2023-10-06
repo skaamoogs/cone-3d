@@ -1,42 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useLayoutEffect, useRef } from "react";
-import * as THREE from "three";
+import { Canvas } from "@react-three/fiber";
 import "./App.scss";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { Cone } from "./components/cone/cone";
+
+const vertices = [
+  -1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0, 1.0, 1.0,
+  -1.0, -1.0, 1.0, 1.0, 1.0, 0.0,
+];
 
 function App() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useLayoutEffect(() => {
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      85,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvasRef.current!,
-      antialias: true,
-    });
-
-    const controls = new OrbitControls(camera, renderer.domElement);
-
-    const geometry = new THREE.ConeGeometry(5, 10, 32);
-    const material = new THREE.MeshBasicMaterial({
-      color: 0xacacac,
-    });
-    const cone = new THREE.Mesh(geometry, material);
-    scene.add(cone);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    camera.position.set(1, 1, 10);
-
-    controls.update();
-
-    renderer.render(scene, camera);
-  }, []);
-
   return (
     <main className="main">
       <div className="settings">
@@ -56,8 +27,13 @@ function App() {
           </label>
         </form>
       </div>
+      <Canvas className="canvas">
+        <ambientLight intensity={0.5} />
+        <spotLight position={[30, 30, 30]} angle={0.15} penumbra={2} />
+        <pointLight position={[-30, -30, -30]} />
 
-      <canvas ref={canvasRef} className="canvas"></canvas>
+        <Cone vertices={vertices} position={[-1, 0, 0]} />
+      </Canvas>
     </main>
   );
 }
